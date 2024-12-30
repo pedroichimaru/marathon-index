@@ -3,35 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elevation Comparison</title>
+    <title>Elevation Comparison | Marathon Index</title>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap" as="style">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             font-family: 'Roboto Slab', sans-serif;
-            margin: 10px;
+            margin-top: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        h1 {
-            margin: 0 auto;
-            text-align: center;
-            font-size: 18px;
-            line-height: 1.5;
+        .controls {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            width: 100%;
+            justify-content: center;
         }
 
         .search-bar {
             position: relative;
-            margin: 20px auto;
-            width: 90%;
+            margin-top: 30px;
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            width: calc(70% - 85px);
         }
 
         .search-bar input {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             font-size: 14px;
             font-family: 'Roboto Slab', sans-serif;
             color: #4A4A4A;
@@ -41,7 +45,7 @@
 
         .autocomplete-list {
             position: absolute;
-            top: 35px;
+            top: 40px;
             left: 0;
             width: 100%;
             background: white;
@@ -50,7 +54,7 @@
         }
 
         .autocomplete-item {
-            padding: 8px;
+            padding: 10px;
             cursor: pointer;
             color: #4A4A4A;
             text-align: left;
@@ -61,25 +65,12 @@
             background-color: #f0f0f0;
         }
 
-        .controls {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-        }
-
-        canvas {
-            display: block;
-            width: 100%;
-            height: auto;
-        }
-
         .selected-marathons {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 20px;
-            width: 90%;
+            margin: 20px auto;
+            width: 100%;
         }
 
         .marathon-box {
@@ -91,6 +82,8 @@
             border-radius: 5px;
             padding: 10px;
             margin-bottom: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
             width: 100%;
             box-sizing: border-box;
             font-size: 14px;
@@ -102,9 +95,9 @@
         }
 
         .color-square {
-            width: 12px;
-            height: 12px;
-            margin-right: 8px;
+            width: 15px;
+            height: 15px;
+            margin-right: 10px;
             border-radius: 3px;
         }
 
@@ -113,38 +106,59 @@
             color: darkslategrey;
         }
 
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 16px;
-            }
+        h1 {
+            margin: 0 auto;
+            text-align: center;
+            font-size: 24px;
+        }
 
-            .search-bar input {
-                font-size: 12px;
+        canvas {
+            display: block;
+            width: 100% !important;
+            height: auto !important;
+        }
+
+        .vertical-line {
+            position: absolute;
+            width: 1px;
+            background-color: lightgrey;
+            height: 100%;
+            pointer-events: none;
+            display: none;
+            z-index: 10;
+        }
+
+        @media (max-width: 600px) {
+            .search-bar {
+                width: calc(100% - 40px);
             }
 
             .marathon-box {
-                padding: 8px;
+                width: calc(100% - 40px);
             }
         }
     </style>
 </head>
 <body>
-    <h1>MARATHON INDEX<br>ELEVATION MAP</h1>
-
+    <h1>
+        MARATHON INDEX <br>| ELEVATION MAP |
+    </h1>
     <div class="search-bar">
         <input type="text" id="marathonSearch" placeholder="Search for a marathon..." oninput="showAutocomplete()">
         <div id="autocomplete" class="autocomplete-list"></div>
     </div>
-
     <div class="controls">
-        <canvas id="scatterChart"></canvas>
+        <div style="position: relative; width: 70%; margin: auto;">
+            <div class="vertical-line" id="verticalLine"></div>
+            <canvas id="scatterChart"></canvas>
+        </div>
     </div>
-
     <div class="selected-marathons" id="selectedMarathons"></div>
 
     <script>
         let marathons = {};
 
+        // Load marathon data from external JSON file
         async function loadMarathonData() {
             try {
                 const response = await fetch('marathons.json');
@@ -156,6 +170,26 @@
 
         async function init() {
             await loadMarathonData();
+
+            // Add a temporary dataset
+            const defaultDataset = {
+                label: 'Default',
+                data: [{ x: 0, y: 0 }],
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                borderColor: 'rgba(0, 0, 0, 1)',
+                borderWidth: 0,
+                pointRadius: 0,
+                fill: false
+            };
+
+            scatterChart.data.datasets.push(defaultDataset);
+            scatterChart.update();
+
+            // Remove the temporary dataset after 1 second
+            setTimeout(() => {
+                scatterChart.data.datasets = scatterChart.data.datasets.filter(dataset => dataset.label !== 'Default');
+                scatterChart.update();
+            }, 1);
         }
 
         function showAutocomplete() {
@@ -200,7 +234,7 @@
                 data: marathons[marathon],
                 backgroundColor: color.replace(/1\)$/, '0.5)'),
                 borderColor: color,
-                borderWidth: 1.5,
+                borderWidth: 2,
                 tension: 0.4,
                 pointRadius: 0,
                 fill: false
@@ -274,16 +308,37 @@
                 x: {
                     type: 'linear',
                     position: 'bottom',
-                    min: 0,
-                    max: 42.2,
-                    ticks: {
-                        stepSize: 9,
+                    title: {
+                        display: false,
+                        text: 'Distance (km)',
                         font: {
                             family: 'Roboto Slab'
                         }
+                    },
+                    min: 0,
+                    max: 42.2,
+                    ticks: {
+                        stepSize: 5,
+                        callback: function(value) {
+                            return value % 5 === 0 ? value : '';
+                        },
+                        font: {
+                            family: 'Roboto Slab'
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(200, 200, 200, 0.8)',
+                        lineWidth: 0.5
                     }
                 },
                 y: {
+                    title: {
+                        display: false,
+                        text: 'Elevation Gain/Loss (m)',
+                        font: {
+                            family: 'Roboto Slab'
+                        }
+                    },
                     min: -200,
                     max: 200,
                     ticks: {
@@ -301,6 +356,21 @@
             options: scatterOptions
         });
 
+        const chartContainer = document.querySelector('#scatterChart').parentElement;
+        const verticalLine = document.getElementById('verticalLine');
+
+        chartContainer.addEventListener('mousemove', (event) => {
+            const chartRect = chartContainer.getBoundingClientRect();
+            const offsetX = event.clientX - chartRect.left;
+            verticalLine.style.left = `${offsetX}px`;
+            verticalLine.style.display = 'block';
+        });
+
+        chartContainer.addEventListener('mouseleave', () => {
+            verticalLine.style.display = 'none';
+        });
+
+        // Initialize the app
         init();
     </script>
 </body>
