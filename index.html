@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elevation Comparison | Marathon Index</title>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto Slab', sans-serif;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .search-bar {
+            position: relative;
+            margin-top: 30px;
+            margin-left: 35px;
+            margin-bottom: 10px;
+            width: calc(70% - 85px);
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            font-family: 'Roboto Slab', sans-serif;
+            color: #4A4A4A;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .autocomplete-list {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .autocomplete-item {
+            padding: 10px;
+            cursor: pointer;
+            color: #4A4A4A;
+            text-align: left;
+        }
+
+        .autocomplete-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .selected-marathons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px auto;
+            width: 100%;
+        }
+
+        .marathon-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            margin-left: 60px;
+            width: calc(70% - 60px);
+            box-sizing: border-box;
+        }
+
+        .marathon-box .left-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .color-square {
+            width: 15px;
+            height: 15px;
+            margin-right: 10px;
+            border-radius: 3px;
+        }
+
+        .trash-icon {
+            cursor: pointer;
+            color: darkslategrey;
+        }
+
+        h1 {
+            margin: 0 auto;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        canvas {
+            display: block;
+            width: 100% !important;
+            height: auto !important;
+        }
+
+        .vertical-line {
+            position: absolute;
+            width: 1px;
+            background-color: lightgrey;
+            height: 100%;
+            pointer-events: none;
+            display: none;
+            z-index: 10;
+        }
+
+        @media (max-width: 600px) {
+            .search-bar {
+                width: calc(100% - 40px);
+            }
+
+            .marathon-box {
+                width: calc(100% - 40px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>
+        MARATHON INDEX | ELEVATION MAP
+    </h1>
+    <div class="search-bar">
+        <input type="text" id="marathonSearch" placeholder="Search for a marathon..." oninput="showAutocomplete()">
+        <div id="autocomplete" class="autocomplete-list"></div>
+    </div>
+    <div class="controls">
+        <div style="position: relative; width: 70%; margin: auto;">
+            <div class="vertical-line" id="verticalLine"></div>
+            <canvas id="scatterChart"></canvas>
+        </div>
+    </div>
+    <div class="selected-marathons" id="selectedMarathons"></div>
+
+    <script>
+        let marathons = {};
+
+        // Load marathon data from external JSON file
+        async function loadMarathonData() {
+            try {
+                const response = await fetch('marathons.json');
+                marathons = await response.json();
+            } catch (error) {
+                console.error("Error loading marathon data:", error);
+            }
+        }
+
+        async function init() {
+            await loadMarathonData();
+
+            // Add a temporary dataset
+            const defaultDataset = {
+                label: 'Default',
+                data: [{ x: 0, y: 0 }],
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                borderColor: 'rgba(0, 0, 0, 1)',
+                borderWidth: 0,
+                pointRadius: 0,
+                fill: false
+            };
+
+            scatterChart.data.datasets.push(defaultDataset);
+            scatterChart.update();
+
+            // Remove the temporary dataset after 1 second
+            setTimeout(() => {
+                scatterChart.data.datasets = scatterChart.data.datasets.filter(dataset => dataset.label !== 'Default');
+                scatterChart.update();
+            }, 1);
+        }
+
+        function showAutocomplete() {
+            const input = document.getElementById('marathonSearch').value.toLowerCase();
+            const autocompleteList = document.getElementById('autocomplete');
+            autocompleteList.innerHTML = '';
+
+            if (input === '') {
+                return;
+            }
+
+            Object.keys(marathons).forEach(marathon => {
+                if (marathon.toLowerCase().includes(input)) {
+                    const item = document.createElement('div');
+                    item.className = 'autocomplete-item';
+                    item.textContent = marathon;
+                    item.onclick = () => {
+                        document.getElementById('marathonSearch').value = '';
+                        addMarathonToChart(marathon);
+                        clearAutocomplete();
+                    };
+                    autocompleteList.appendChild(item);
+                }
+            });
+        }
+
+        function clearAutocomplete() {
+            const autocompleteList = document.getElementById('autocomplete');
+            autocompleteList.innerHTML = '';
+        }
+
+        function addMarathonToChart(marathon) {
+            if (scatterChart.data.datasets.some(dataset => dataset.label === marathon)) {
+                alert(`${marathon} is already displayed on the chart.`);
+                return;
+            }
+
+            const color = getRandomColor(1);
+
+            scatterChart.data.datasets.push({
+                label: marathon,
+                data: marathons[marathon],
+                backgroundColor: color.replace(/1\)$/, '0.5)'),
+                borderColor: color,
+                borderWidth: 2,
+                tension: 0.4,
+                pointRadius: 0,
+                fill: false
+            });
+            scatterChart.update();
+
+            const selectedMarathonsDiv = document.getElementById('selectedMarathons');
+            const marathonBox = document.createElement('div');
+            marathonBox.className = 'marathon-box';
+            marathonBox.id = `box-${marathon.replace(/\s+/g, '-')}`;
+            marathonBox.innerHTML = `
+                <div class="left-content">
+                    <div class="color-square" style="background-color: ${color};"></div>
+                    <span>${marathon}</span>
+                </div>
+                <span class="trash-icon" onclick="removeMarathonFromChart('${marathon}')">&#10005;</span>
+            `;
+            selectedMarathonsDiv.appendChild(marathonBox);
+        }
+
+        function removeMarathonFromChart(marathon) {
+            scatterChart.data.datasets = scatterChart.data.datasets.filter(dataset => dataset.label !== marathon);
+            scatterChart.update();
+
+            const marathonBox = document.getElementById(`box-${marathon.replace(/\s+/g, '-')}`);
+            if (marathonBox) {
+                marathonBox.remove();
+            }
+        }
+
+        function getRandomColor(opacity) {
+            const r = Math.floor(Math.random() * 255);
+            const g = Math.floor(Math.random() * 255);
+            const b = Math.floor(Math.random() * 255);
+            return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+        }
+
+        const ctx = document.getElementById('scatterChart').getContext('2d');
+
+        const scatterData = {
+            datasets: []
+        };
+
+        const scatterOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: true,
+                    mode: 'nearest',
+                    intersect: false,
+                    callbacks: {
+                        label: function(context) {
+                            const xValue = context.raw?.x || context.chart.scales.x.getValueForPixel(context.tooltip.caretX);
+                            const yValue = context.raw?.y;
+                            return `${context.dataset.label} - Distance: ${xValue.toFixed(2)} km, Elevation: ${yValue !== null ? yValue.toFixed(2) : 'N/A'} m`;
+                        }
+                    },
+                    bodyFont: {
+                        family: 'Roboto Slab'
+                    },
+                    titleFont: {
+                        family: 'Roboto Slab'
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    type: 'linear',
+                    position: 'bottom',
+                    title: {
+                        display: true,
+                        text: 'Distance (km)',
+                        font: {
+                            family: 'Roboto Slab'
+                        }
+                    },
+                    min: 0,
+                    max: 42.2,
+                    ticks: {
+                        stepSize: 5,
+                        callback: function(value) {
+                            return value % 5 === 0 ? value : '';
+                        },
+                        font: {
+                            family: 'Roboto Slab'
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(200, 200, 200, 0.8)',
+                        lineWidth: 0.5
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Elevation Gain/Loss (m)',
+                        font: {
+                            family: 'Roboto Slab'
+                        }
+                    },
+                    min: -200,
+                    max: 200,
+                    ticks: {
+                        font: {
+                            family: 'Roboto Slab'
+                        }
+                    }
+                }
+            }
+        };
+
+        const scatterChart = new Chart(ctx, {
+            type: 'line',
+            data: scatterData,
+            options: scatterOptions
+        });
+
+        const chartContainer = document.querySelector('#scatterChart').parentElement;
+        const verticalLine = document.getElementById('verticalLine');
+
+        chartContainer.addEventListener('mousemove', (event) => {
+            const chartRect = chartContainer.getBoundingClientRect();
+            const offsetX = event.clientX - chartRect.left;
+            verticalLine.style.left = `${offsetX}px`;
+            verticalLine.style.display = 'block';
+        });
+
+        chartContainer.addEventListener('mouseleave', () => {
+            verticalLine.style.display = 'none';
+        });
+
+        // Initialize the app
+        init();
+    </script>
+</body>
+</html>
