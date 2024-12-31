@@ -249,60 +249,92 @@
             datasets: []
         };
 
-        const scatterOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    enabled: false,
-                    external: function(context) {
-                        const tooltipEl = document.getElementById('chartjs-tooltip');
+const scatterOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+        legend: {
+            display: false
+        },
+        tooltip: {
+            enabled: false,
+            external: function (context) {
+                const tooltipEl = document.getElementById('chartjs-tooltip');
 
-                        if (!context.tooltip.opacity) {
-                            tooltipEl.style.opacity = 0;
-                            return;
-                        }
-
-                        const tooltipModel = context.tooltip;
-
-                        tooltipEl.style.opacity = 1;
-                        tooltipEl.style.position = 'absolute';
-                        tooltipEl.style.left = `${tooltipModel.caretX}px`;
-                        tooltipEl.style.top = `${tooltipModel.caretY}px`;
-                        tooltipEl.style.padding = `${tooltipModel.padding}px`;
-                        tooltipEl.innerHTML = `<div style="font-family: 'Roboto Slab'; font-size: 12px;">
-                            <b>Distance:</b> ${tooltipModel.dataPoints[0].raw.x.toFixed(2)} km<br>
-                            <b>Elevation:</b> ${tooltipModel.dataPoints[0].raw.y.toFixed(2)} m
-                        </div>`;
-                    }
+                if (!tooltipEl) {
+                    const newTooltipEl = document.createElement('div');
+                    newTooltipEl.id = 'chartjs-tooltip';
+                    newTooltipEl.style.position = 'absolute';
+                    newTooltipEl.style.background = 'rgba(0, 0, 0, 0.7)';
+                    newTooltipEl.style.color = 'white';
+                    newTooltipEl.style.padding = '5px 10px';
+                    newTooltipEl.style.borderRadius = '5px';
+                    newTooltipEl.style.pointerEvents = 'none';
+                    newTooltipEl.style.fontFamily = 'Roboto Slab';
+                    newTooltipEl.style.fontSize = '12px';
+                    newTooltipEl.style.opacity = 0;
+                    document.body.appendChild(newTooltipEl);
                 }
-            },
-            scales: {
-                x: {
-                    type: 'linear',
-                    position: 'bottom',
-                    min: 0,
-                    max: 43,
-                    ticks: {
-                        font: {
-                            family: 'Roboto Slab'
-                        }
-                    }
-                },
-                y: {
-                    min: -200,
-                    max: 200,
-                    ticks: {
-                        font: {
-                            family: 'Roboto Slab'
-                        }
-                    }
+
+                const tooltipElRef = document.getElementById('chartjs-tooltip');
+
+                if (!context.tooltip.opacity) {
+                    tooltipElRef.style.opacity = 0;
+                    return;
+                }
+
+                const tooltipModel = context.tooltip;
+                const dataPoint = tooltipModel.dataPoints[0];
+                
+                tooltipElRef.style.opacity = 1;
+                tooltipElRef.style.left = `${tooltipModel.caretX}px`;
+                tooltipElRef.style.top = `${tooltipModel.caretY}px`;
+                tooltipElRef.innerHTML = `
+                    <div>
+                        <b>Distance:</b> ${dataPoint.raw.x.toFixed(2)} km<br>
+                        <b>Elevation:</b> ${dataPoint.raw.y.toFixed(2)} m
+                    </div>
+                `;
+            }
+        }
+    },
+    interaction: {
+        mode: 'nearest',
+        intersect: false,
+        axis: 'x',
+    },
+    events: ['touchstart', 'touchmove', 'touchend'],
+    onTouchStart: (e, chart) => {
+        const canvas = chart.canvas;
+        canvas.addEventListener('touchend', () => {
+            const tooltipEl = document.getElementById('chartjs-tooltip');
+            if (tooltipEl) tooltipEl.style.opacity = 0;
+        }, { once: true });
+    },
+    scales: {
+        x: {
+            type: 'linear',
+            position: 'bottom',
+            min: 0,
+            max: 43,
+            ticks: {
+                font: {
+                    family: 'Roboto Slab'
                 }
             }
-        };
+        },
+        y: {
+            min: -200,
+            max: 200,
+            ticks: {
+                font: {
+                    family: 'Roboto Slab'
+                }
+            }
+        }
+    }
+};
+
 
         const scatterChart = new Chart(ctx, {
             type: 'line',
