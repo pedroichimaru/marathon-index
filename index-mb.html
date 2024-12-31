@@ -19,7 +19,7 @@
         .black-stripe {
             height: 30px;
             width: 100%;
-            background-color: #a2f2f2;
+            background-color: #f2f2f2;
             position: fixed;
             top: 0;
             left: 0;
@@ -269,10 +269,13 @@ const scatterOptions = {
                     newTooltipEl.style.color = 'white';
                     newTooltipEl.style.padding = '5px 10px';
                     newTooltipEl.style.borderRadius = '5px';
-                    newTooltipEl.style.pointerEvents = 'none';
+                    newTooltipEl.style.pointerEvents = 'auto';
                     newTooltipEl.style.fontFamily = 'Roboto Slab';
                     newTooltipEl.style.fontSize = '12px';
                     newTooltipEl.style.opacity = 0;
+                    newTooltipEl.addEventListener('click', () => {
+                        newTooltipEl.style.opacity = 0;
+                    });
                     document.body.appendChild(newTooltipEl);
                 }
 
