@@ -10,20 +10,20 @@
     <style>
         body {
             font-family: 'Roboto Slab', sans-serif;
-            margin-top: 20px;
+            margin-top: 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
         
         .black-stripe {
-            height: 20px; /* Set height of the stripe */
-            width: 100%; /* Ensures it spans the full width of the window */
-            background-color: black; /* Set the background color to black */
-            position: fixed; /* Keeps it fixed at the top of the window */
-            top: 0; /* Positions it at the top of the page */
-            left: 0; /* Aligns it with the left edge of the page */
-            z-index: 1000; /* Ensures it stays above other content */
+            height: 50px;
+            width: 100%;
+            background-color: #f2f2f2;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
         }
         
         .controls {
@@ -81,7 +81,7 @@
             flex-direction: column;
             align-items: center;
             margin: 20px auto;
-            width: 100%;
+            width: 90%;
         }
 
         .marathon-box {
@@ -93,8 +93,6 @@
             border-radius: 5px;
             padding: 10px;
             margin-bottom: 10px;
-            margin-left: 20px;
-            margin-right: 10px;
             width: 100%;
             box-sizing: border-box;
             font-size: 14px;
@@ -117,43 +115,22 @@
             color: darkslategrey;
         }
 
-        h1 {
-            margin: 0 auto;
-            text-align: center;
-            font-size: 24px;
-        }
-
         canvas {
             display: block;
             width: 100% !important;
             height: auto !important;
         }
 
-        .vertical-line {
-            position: absolute;
-            width: 1px;
-            background-color: lightgrey;
-            height: 100%;
-            pointer-events: none;
-            display: none;
-            z-index: 10;
-        }
-
         @media (max-width: 600px) {
             .search-bar {
                 width: calc(100% - 40px);
-            }
-
-            .marathon-box {
-                width: calc(100% - 60px);
             }
         }
     </style>
 </head>
 <body>
     <div class="black-stripe"></div>
-    <div style="padding-top: 30px;"> <!-- Adjust content to avoid being hidden under the stripe -->
-    </div>
+    <div style="padding-top: 30px;"></div>
     <h1>
         MARATHON INDEX <br>| ELEVATION MAP |
     </h1>
@@ -163,7 +140,6 @@
     </div>
     <div class="controls">
         <div style="position: relative; width: 90%; height: 350px; margin: auto;">
-            <div class="vertical-line" id="verticalLine"></div>
             <canvas id="scatterChart"></canvas>
         </div>
     </div>
@@ -172,7 +148,6 @@
     <script>
         let marathons = {};
 
-        // Load marathon data from external JSON file
         async function loadMarathonData() {
             try {
                 const response = await fetch('marathons.json');
@@ -185,25 +160,7 @@
         async function init() {
             await loadMarathonData();
 
-            // Add a temporary dataset
-            const defaultDataset = {
-                label: 'Default',
-                data: [{ x: 0, y: 0 }],
-                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                borderColor: 'rgba(0, 0, 0, 1)',
-                borderWidth: 0,
-                pointRadius: 0,
-                fill: false
-            };
-
-            scatterChart.data.datasets.push(defaultDataset);
             scatterChart.update();
-
-            // Remove the temporary dataset after 1 second
-            setTimeout(() => {
-                scatterChart.data.datasets = scatterChart.data.datasets.filter(dataset => dataset.label !== 'Default');
-                scatterChart.update();
-            }, 1);
         }
 
         function showAutocomplete() {
@@ -300,21 +257,26 @@
                     display: false
                 },
                 tooltip: {
-                    enabled: true,
-                    mode: 'nearest',
-                    intersect: false,
-                    callbacks: {
-                        label: function(context) {
-                            const xValue = context.raw?.x || context.chart.scales.x.getValueForPixel(context.tooltip.caretX);
-                            const yValue = context.raw?.y;
-                            return `${context.dataset.label} - Distance: ${xValue.toFixed(2)} km, Elevation: ${yValue !== null ? yValue.toFixed(2) : 'N/A'} m`;
+                    enabled: false,
+                    external: function(context) {
+                        const tooltipEl = document.getElementById('chartjs-tooltip');
+
+                        if (!context.tooltip.opacity) {
+                            tooltipEl.style.opacity = 0;
+                            return;
                         }
-                    },
-                    bodyFont: {
-                        family: 'Roboto Slab'
-                    },
-                    titleFont: {
-                        family: 'Roboto Slab'
+
+                        const tooltipModel = context.tooltip;
+
+                        tooltipEl.style.opacity = 1;
+                        tooltipEl.style.position = 'absolute';
+                        tooltipEl.style.left = `${tooltipModel.caretX}px`;
+                        tooltipEl.style.top = `${tooltipModel.caretY}px`;
+                        tooltipEl.style.padding = `${tooltipModel.padding}px`;
+                        tooltipEl.innerHTML = `<div style="font-family: 'Roboto Slab'; font-size: 12px;">
+                            <b>Distance:</b> ${tooltipModel.dataPoints[0].raw.x.toFixed(2)} km<br>
+                            <b>Elevation:</b> ${tooltipModel.dataPoints[0].raw.y.toFixed(2)} m
+                        </div>`;
                     }
                 }
             },
@@ -322,37 +284,15 @@
                 x: {
                     type: 'linear',
                     position: 'bottom',
-                    title: {
-                        display: false,
-                        text: 'Distance (km)',
-                        font: {
-                            family: 'Roboto Slab'
-                        }
-                    },
                     min: 0,
                     max: 43,
                     ticks: {
-                        stepSize: 5,
-                        callback: function(value) {
-                            return value % 5 === 0 ? value : '';
-                        },
                         font: {
                             family: 'Roboto Slab'
                         }
-                    },
-                    grid: {
-                        color: 'rgba(200, 200, 200, 0.8)',
-                        lineWidth: 0.5
                     }
                 },
                 y: {
-                    title: {
-                        display: false,
-                        text: 'Elevation Gain/Loss (m)',
-                        font: {
-                            family: 'Roboto Slab'
-                        }
-                    },
                     min: -200,
                     max: 200,
                     ticks: {
@@ -370,21 +310,6 @@
             options: scatterOptions
         });
 
-        const chartContainer = document.querySelector('#scatterChart').parentElement;
-        const verticalLine = document.getElementById('verticalLine');
-
-        chartContainer.addEventListener('mousemove', (event) => {
-            const chartRect = chartContainer.getBoundingClientRect();
-            const offsetX = event.clientX - chartRect.left;
-            verticalLine.style.left = `${offsetX}px`;
-            verticalLine.style.display = 'block';
-        });
-
-        chartContainer.addEventListener('mouseleave', () => {
-            verticalLine.style.display = 'none';
-        });
-
-        // Initialize the app
         init();
     </script>
 </body>
