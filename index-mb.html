@@ -285,10 +285,12 @@ const scatterOptions = {
 
                 const tooltipModel = context.tooltip;
                 const dataPoint = tooltipModel.dataPoints[0];
-                
+
+                const canvasPosition = context.chart.canvas.getBoundingClientRect();
+
                 tooltipElRef.style.opacity = 1;
-                tooltipElRef.style.left = `${tooltipModel.caretX}px`;
-                tooltipElRef.style.top = `${tooltipModel.caretY}px`;
+                tooltipElRef.style.left = `${canvasPosition.left + tooltipModel.caretX}px`;
+                tooltipElRef.style.top = `${canvasPosition.top + tooltipModel.caretY}px`;
                 tooltipElRef.innerHTML = `
                     <div>
                         <b>Distance:</b> ${dataPoint.raw.x.toFixed(2)} km<br>
@@ -299,9 +301,8 @@ const scatterOptions = {
         }
     },
     interaction: {
-        mode: 'nearest',
+        mode: 'index',
         intersect: false,
-        axis: 'x',
     },
     events: ['touchstart', 'touchmove', 'touchend'],
     onTouchStart: (e, chart) => {
@@ -310,6 +311,15 @@ const scatterOptions = {
             const tooltipEl = document.getElementById('chartjs-tooltip');
             if (tooltipEl) tooltipEl.style.opacity = 0;
         }, { once: true });
+
+        const tooltipEl = document.getElementById('chartjs-tooltip');
+        if (tooltipEl) {
+            tooltipEl.style.opacity = 0;
+        }
+    },
+    onTouchEnd: (e, chart) => {
+        const tooltipEl = document.getElementById('chartjs-tooltip');
+        if (tooltipEl) tooltipEl.style.opacity = 0;
     },
     scales: {
         x: {
@@ -317,6 +327,10 @@ const scatterOptions = {
             position: 'bottom',
             min: 0,
             max: 43,
+            grid: {
+                drawOnChartArea: true,
+                color: 'lightgrey'
+            },
             ticks: {
                 font: {
                     family: 'Roboto Slab'
@@ -326,14 +340,34 @@ const scatterOptions = {
         y: {
             min: -200,
             max: 200,
+            grid: {
+                drawOnChartArea: true,
+                color: 'lightgrey'
+            },
             ticks: {
                 font: {
                     family: 'Roboto Slab'
                 }
             }
         }
+    },
+    annotation: {
+        annotations: {
+            verticalLine: {
+                type: 'line',
+                mode: 'vertical',
+                scaleID: 'x',
+                value: 0,
+                borderColor: 'lightgrey',
+                borderWidth: 1,
+                label: {
+                    enabled: false
+                }
+            }
+        }
     }
 };
+
 
 
         const scatterChart = new Chart(ctx, {
