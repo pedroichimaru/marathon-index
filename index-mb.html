@@ -19,7 +19,7 @@
         .black-stripe {
             height: 30px;
             width: 100%;
-            background-color: #f2f2f2;
+            background-color: #a2f2f2;
             position: fixed;
             top: 0;
             left: 0;
@@ -290,9 +290,12 @@ const scatterOptions = {
                 const dataPoint = tooltipModel.dataPoints[0];
 
                 const canvasPosition = context.chart.canvas.getBoundingClientRect();
+                const isRightHalf = tooltipModel.caretX > context.chart.width / 2;
 
                 tooltipElRef.style.opacity = 1;
-                tooltipElRef.style.left = `${canvasPosition.left + tooltipModel.caretX}px`;
+                tooltipElRef.style.left = isRightHalf
+                    ? `${canvasPosition.left + tooltipModel.caretX - tooltipElRef.offsetWidth - 10}px`
+                    : `${canvasPosition.left + tooltipModel.caretX + 10}px`;
                 tooltipElRef.style.top = `${canvasPosition.top + tooltipModel.caretY}px`;
                 tooltipElRef.innerHTML = `
                     <div>
@@ -366,6 +369,7 @@ const scatterOptions = {
         }
     }
 };
+
 
 
 
