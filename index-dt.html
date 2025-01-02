@@ -167,6 +167,38 @@
 
     <script>
         let marathons = {};
+        const colors = [
+            { r: 153, g: 102, b: 255 }, // Vibrant Purple
+            { r: 255, g: 159, b: 64 },  // Bright Orange
+            { r: 54, g: 162, b: 235 },  // Electric Blue
+            { r: 255, g: 99, b: 132 },  // Neon Red
+            { r: 75, g: 192, b: 192 },  // Cool Teal
+            { r: 255, g: 206, b: 86 },  // Sunny Yellow
+            { r: 102, g: 255, b: 153 }, // Mint Green
+            { r: 255, g: 51, b: 153 },  // Hot Pink
+            { r: 51, g: 102, b: 255 },  // Royal Blue
+            { r: 255, g: 128, b: 0 },   // Tangerine
+            { r: 204, g: 102, b: 255 }, // Lavender
+            { r: 102, g: 255, b: 102 }, // Lime Green
+            { r: 255, g: 204, b: 51 },  // Gold
+            { r: 204, g: 0, b: 102 },   // Deep Magenta
+            { r: 0, g: 204, b: 204 },   // Cyan
+            { r: 255, g: 51, b: 51 },   // Fiery Red
+            { r: 128, g: 128, b: 255 }, // Periwinkle
+            { r: 255, g: 153, b: 204 }, // Pastel Pink
+            { r: 255, g: 102, b: 0 },   // Sunset Orange
+            { r: 51, g: 255, b: 255 }   // Aqua
+        ];
+
+        let availableColors = [...colors];
+
+        function getNextColor() {
+            if (availableColors.length === 0) {
+                availableColors = [...colors]; // Reset colors when all have been used
+            }
+            const colorIndex = Math.floor(Math.random() * availableColors.length);
+            return availableColors.splice(colorIndex, 1)[0]; // Remove and return a color
+        }
 
         // Load marathon data from external JSON file
         async function loadMarathonData() {
@@ -237,7 +269,8 @@
                 return;
             }
 
-            const color = getRandomColor(1);
+            const { r, g, b } = getNextColor();
+            const color = `rgba(${r}, ${g}, ${b}, 1)`;
 
             scatterChart.data.datasets.push({
                 label: marathon,
@@ -273,13 +306,6 @@
             if (marathonBox) {
                 marathonBox.remove();
             }
-        }
-
-        function getRandomColor(opacity) {
-            const r = Math.floor(Math.random() * 255);
-            const g = Math.floor(Math.random() * 255);
-            const b = Math.floor(Math.random() * 255);
-            return `rgba(${r}, ${g}, ${b}, ${opacity})`;
         }
 
         const ctx = document.getElementById('scatterChart').getContext('2d');
