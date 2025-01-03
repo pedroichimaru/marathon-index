@@ -28,8 +28,8 @@
         
         .search-bar {
             position: relative;
-            margin-top: 10px;
-            margin-left: 10px;
+            margin-top: 20px;
+            margin-left: 40px;
             margin-right: 10px;
             margin-bottom: 10px;
             width: 100%;
@@ -117,9 +117,12 @@
         }
 
         h1 {
-            margin: 0 auto;
-            text-align: center;
-            font-size: 24px;
+            font-size: 8vw; /* Adjusts font size based on 5% of the viewport width */
+            text-align: center; /* Aligns the text to the center */
+            width: 90%; /* Ensures the text container takes 90% of the screen width */
+            margin: 0 auto; /* Centers the element horizontally */
+            word-wrap: break-word; /* Ensures long words are wrapped */
+            box-sizing: border-box; /* Includes padding and border in width */
         }
 
         canvas {
@@ -151,7 +154,7 @@
 </head>
 <body>
     <div class="black-stripe"></div>
-    <div style="padding-top: 30px;"></div>
+    <div style="padding-top: 10px;"></div>
     <h1>
         MARATHON INDEX <br>| ELEVATION MAP |
     </h1>
@@ -332,16 +335,8 @@
                 x: {
                     type: 'linear',
                     position: 'bottom',
-                    title: {
-                        display: true,
-                        text: 'Distance (km)',
-                        font: {
-                            family: 'Roboto Slab'
-                        },
-                        color: '#5e6a79',
-                    },
                     min: 0,
-                    max: 42.2,
+                    max: 43,
                     ticks: {
                         stepSize: 5,
                         callback: function(value) {
@@ -358,14 +353,6 @@
                     }
                 },
                 y: {
-                    title: {
-                        display: true,
-                        text: 'Elevation Gain/Loss (m)',
-                        font: {
-                            family: 'Roboto Slab'
-                        },
-                        color: '#5e6a79',
-                    },
                     min: -200,
                     max: 200,
                     ticks: {
