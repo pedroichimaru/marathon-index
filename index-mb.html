@@ -247,6 +247,18 @@
             return data.filter((_, index) => index % step === 0);
         }
 
+        function updateYAxisLimits() {
+            const allYValues = scatterChart.data.datasets.flatMap(dataset => dataset.data.map(point => point.y));
+
+            const maxY = Math.max(...allYValues, 250);
+            const minY = Math.min(...allYValues, -250);
+
+            scatterChart.options.scales.y.max = maxY > 250 ? maxY + 50 : 250;
+            scatterChart.options.scales.y.min = minY < -250 ? minY - 50 : -250;
+
+            scatterChart.update();
+        }
+        
         async function addMarathonToChart(marathonName) {
             if (scatterChart.data.datasets.some(dataset => dataset.label === marathonName)) {
                 alert(`${marathonName} is already displayed on the chart.`);
@@ -287,6 +299,7 @@
             });
 
             scatterChart.update();
+            updateYAxisLimits();
 
             const selectedMarathonsDiv = document.getElementById('selectedMarathons');
             const marathonBox = document.createElement('div');
@@ -305,6 +318,7 @@
         function removeMarathonFromChart(marathonName) {
             scatterChart.data.datasets = scatterChart.data.datasets.filter(dataset => dataset.label !== marathonName);
             scatterChart.update();
+            updateYAxisLimits();
 
             const marathonBox = document.getElementById(`box-${marathonName.replace(/\s+/g, '-')}`);
             if (marathonBox) {
