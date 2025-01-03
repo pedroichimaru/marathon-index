@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elevation Comparison | Marathon Index</title>
+    <title>Elevation Profile Comparison | Marathon Index</title>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap" as="style">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -122,7 +122,16 @@
         }
 
         h1 {
-            font-size: 8vw; /* Adjusts font size based on viewport width */
+            font-size: 9vw; /* Adjusts font size based on viewport width */
+            text-align: center;
+            width: 90%; /* Ensures the text container takes 90% of the screen width */
+            margin: 0 auto; /* Centers the element horizontally */
+            word-wrap: break-word;
+            box-sizing: border-box; /* Includes padding and border in width */
+        }
+        
+        h2 {
+            font-size: 7.9vw; /* Adjusts font size based on viewport width */
             text-align: center;
             width: 90%; /* Ensures the text container takes 90% of the screen width */
             margin: 0 auto; /* Centers the element horizontally */
@@ -155,8 +164,11 @@
     <div class="black-stripe"></div>
     <div style="padding-top: 10px;"></div>
     <h1>
-        MARATHON INDEX <br>| ELEVATION MAP |
+        MARATHON INDEX
     </h1>
+    <h2>
+        | ELEVATION PROFILE |
+    </h2>
     <div class="search-bar">
         <input type="text" id="marathonSearch" placeholder="Search for a marathon..." oninput="showAutocomplete()">
         <div id="autocomplete" class="autocomplete-list"></div>
