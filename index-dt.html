@@ -168,12 +168,12 @@
         let marathonList = [];
         let loadedMarathons = {};
         const colors = [
-{ r: 160, g: 218, b: 255 }, // Soft Blue
-{ r: 167, g: 146, b: 245 }, // Lavender Purple
-{ r: 255, g: 114, b: 189 }, // Bright Pink
-{ r: 240, g: 158, b: 166 }, // Soft Pink
-{ r: 160, g: 230, b: 192 }, // Mint Green
-{ r: 233, g: 238, b: 172 }, // Pale Yellow
+            { r: 160, g: 218, b: 255 }, // Soft Blue
+            { r: 167, g: 146, b: 245 }, // Lavender Purple
+            { r: 255, g: 114, b: 189 }, // Bright Pink
+            { r: 240, g: 158, b: 166 }, // Soft Pink
+            { r: 160, g: 230, b: 192 }, // Mint Green
+            { r: 233, g: 238, b: 172 }, // Pale Yellow
         ];
 
         let availableColors = [...colors];
@@ -313,7 +313,7 @@
                             const yValue = context.raw?.y;
                             return [
                                 `  Distance: ${xValue.toFixed(2)} km`,
-                                `  Elevation: ${yValue !== null ? yValue.toFixed(2) : 'N/A'} m`
+                                `  Δ Elevation: ${yValue !== null ? yValue.toFixed(2) : 'N/A'} m`
                             ];
                         }
                     },
