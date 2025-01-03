@@ -18,6 +18,16 @@
             color: white;
         }
 
+        .controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 90%;
+            height: 350px;
+            margin: auto;
+            position: relative;
+        }
+        
         .search-bar {
             position: relative;
             margin: 20px auto 10px auto;
@@ -63,16 +73,6 @@
 
         .autocomplete-item:hover {
             background-color: #697178;
-        }
-
-        .controls {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 90%;
-            height: 350px;
-            margin: auto;
-            position: relative;
         }
 
         canvas {
@@ -122,7 +122,7 @@
         }
 
         h1 {
-            font-size: 9vw; /* Adjusts font size based on viewport width */
+            font-size: 8.8vw; /* Adjusts font size based on viewport width */
             text-align: center;
             width: 90%; /* Ensures the text container takes 90% of the screen width */
             margin: 0 auto; /* Centers the element horizontally */
@@ -131,7 +131,7 @@
         }
         
         h2 {
-            font-size: 7.8vw; /* Adjusts font size based on viewport width */
+            font-size: 7.6vw; /* Adjusts font size based on viewport width */
             text-align: center;
             width: 90%; /* Ensures the text container takes 90% of the screen width */
             margin: 0 auto; /* Centers the element horizontally */
@@ -241,6 +241,11 @@
             const autocompleteList = document.getElementById('autocomplete');
             autocompleteList.innerHTML = '';
         }
+        
+        function uniformSampling(data, targetCount) {
+            const step = Math.ceil(data.length / targetCount);
+            return data.filter((_, index) => index % step === 0);
+        }
 
         async function addMarathonToChart(marathonName) {
             if (scatterChart.data.datasets.some(dataset => dataset.label === marathonName)) {
@@ -265,12 +270,14 @@
                 }
             }
 
+            const sampledData = uniformSampling(loadedMarathons[marathonName], 420);
+            
             const { r, g, b } = getNextColor();
             const color = `rgba(${r}, ${g}, ${b}, 1)`;
 
             scatterChart.data.datasets.unshift({
                 label: marathonName,
-                data: loadedMarathons[marathonName],
+                data: sampledData,
                 backgroundColor: color.replace(/1\)$/, '1.0)'),
                 borderColor: color,
                 borderWidth: 2,

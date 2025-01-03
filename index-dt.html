@@ -224,6 +224,11 @@
             autocompleteList.innerHTML = '';
         }
 
+        function uniformSampling(data, targetCount) {
+            const step = Math.ceil(data.length / targetCount);
+            return data.filter((_, index) => index % step === 0);
+        }
+
         async function addMarathonToChart(marathonName) {
             if (scatterChart.data.datasets.some(dataset => dataset.label === marathonName)) {
                 alert(`${marathonName} is already displayed on the chart.`);
@@ -247,12 +252,14 @@
                 }
             }
 
+            const sampledData = uniformSampling(loadedMarathons[marathonName], 420);
+
             const { r, g, b } = getNextColor();
             const color = `rgba(${r}, ${g}, ${b}, 1)`;
 
             scatterChart.data.datasets.unshift({
                 label: marathonName,
-                data: loadedMarathons[marathonName],
+                data: sampledData,
                 backgroundColor: color.replace(/1\)$/, '1.0)'),
                 borderColor: color,
                 borderWidth: 2,
