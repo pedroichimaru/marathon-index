@@ -336,12 +336,10 @@
                     type: 'linear',
                     position: 'bottom',
                     min: 0,
-                    max: 43,
+                    max: 42.2,
                     ticks: {
                         stepSize: 5,
-                        callback: function(value) {
-                            return value % 5 === 0 ? value : '';
-                        },
+                        includeBounds: true, // Ensures boundary ticks are always displayed
                         font: {
                             family: 'Roboto Slab'
                         },
