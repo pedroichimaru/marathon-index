@@ -14,18 +14,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            background-color: #1d2228;
+            color: white;
         }
-        
-        .black-stripe {
-            height: 30px;
-            width: 100%;
-            background-color: #f2f2f2;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }
-        
+
         .controls {
             display: flex;
             align-items: center;
@@ -33,7 +25,7 @@
             width: 100%;
             justify-content: center;
         }
-
+        
         .search-bar {
             position: relative;
             margin-top: 10px;
@@ -49,9 +41,14 @@
             padding: 10px;
             font-size: 16px;
             font-family: 'Roboto Slab', sans-serif;
-            color: #4A4A4A;
-            border: 1px solid #ccc;
+            color: white;
+            background-color: #30353c;
+            border: 1px solid #3f454c;
             border-radius: 5px;
+        }
+
+        .search-bar input::placeholder {
+            color: #5e6a79;
         }
 
         .autocomplete-list {
@@ -59,21 +56,24 @@
             top: 40px;
             left: 20px;
             width: 90%;
-            background: white;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            max-height: 350px; /* Approx 8 items */
+            overflow-y: auto;
+            background: #4e555d;
+            box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2);
             z-index: 1000;
+            border-radius: 5px;
         }
 
         .autocomplete-item {
             padding: 10px;
             cursor: pointer;
-            color: #4A4A4A;
+            color: white;
             text-align: left;
             font-size: 16px;
         }
 
         .autocomplete-item:hover {
-            background-color: #f0f0f0;
+            background-color: #697178;
         }
 
         .selected-marathons {
@@ -88,13 +88,14 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background-color: #f9f9f9;
-            border: 1px solid #ccc;
+            background-color: #30353c;
+            border: 1px solid #3f454c;
             border-radius: 5px;
             padding: 10px;
             margin-bottom: 10px;
             width: 100%;
             box-sizing: border-box;
+            color: white;
             font-size: 14px;
         }
 
@@ -112,7 +113,13 @@
 
         .trash-icon {
             cursor: pointer;
-            color: darkslategrey;
+            color: white;
+        }
+
+        h1 {
+            margin: 0 auto;
+            text-align: center;
+            font-size: 24px;
         }
 
         canvas {
@@ -121,8 +128,22 @@
             height: auto !important;
         }
 
+        .vertical-line {
+            position: absolute;
+            width: 1px;
+            background-color: #3f4854;
+            height: 100%;
+            pointer-events: none;
+            display: none;
+            z-index: 10;
+        }
+
         @media (max-width: 600px) {
             .search-bar {
+                width: calc(100% - 50px);
+            }
+
+            .marathon-box {
                 width: calc(100% - 50px);
             }
         }
@@ -130,7 +151,7 @@
 </head>
 <body>
     <div class="black-stripe"></div>
-    <div style="padding-top: 10px;"></div>
+    <div style="padding-top: 30px;"></div>
     <h1>
         MARATHON INDEX <br>| ELEVATION MAP |
     </h1>
@@ -139,28 +160,42 @@
         <div id="autocomplete" class="autocomplete-list"></div>
     </div>
     <div class="controls">
-        <div style="position: relative; width: 90%; height: 350px; margin: auto;">
+        <div style="position: relative; width: 90%; height:350px; margin: auto;">
+            <div class="vertical-line" id="verticalLine"></div>
             <canvas id="scatterChart"></canvas>
         </div>
     </div>
     <div class="selected-marathons" id="selectedMarathons"></div>
 
     <script>
-        let marathons = {};
+        let marathonList = [];
+        let loadedMarathons = {};
+        const colors = [
+{ r: 160, g: 218, b: 255 }, // Soft Blue
+{ r: 167, g: 146, b: 245 }, // Lavender Purple
+{ r: 255, g: 114, b: 189 }, // Bright Pink
+{ r: 240, g: 158, b: 166 }, // Soft Pink
+{ r: 160, g: 230, b: 192 }, // Mint Green
+{ r: 233, g: 238, b: 172 }, // Pale Yellow
+        ];
 
-        async function loadMarathonData() {
-            try {
-                const response = await fetch('marathons.json');
-                marathons = await response.json();
-            } catch (error) {
-                console.error("Error loading marathon data:", error);
+        let availableColors = [...colors];
+
+        function getNextColor() {
+            if (availableColors.length === 0) {
+                availableColors = [...colors];
             }
+            const colorIndex = Math.floor(Math.random() * availableColors.length);
+            return availableColors.splice(colorIndex, 1)[0];
         }
 
-        async function init() {
-            await loadMarathonData();
-
-            scatterChart.update();
+        async function loadMarathonList() {
+            try {
+                const response = await fetch('marathon-list.json');
+                marathonList = await response.json();
+            } catch (error) {
+                console.error("Error loading marathon list:", error);
+            }
         }
 
         function showAutocomplete() {
@@ -172,14 +207,14 @@
                 return;
             }
 
-            Object.keys(marathons).forEach(marathon => {
-                if (marathon.toLowerCase().includes(input)) {
+            marathonList.forEach(({ name }) => {
+                if (name.toLowerCase().includes(input)) {
                     const item = document.createElement('div');
                     item.className = 'autocomplete-item';
-                    item.textContent = marathon;
+                    item.textContent = name;
                     item.onclick = () => {
                         document.getElementById('marathonSearch').value = '';
-                        addMarathonToChart(marathon);
+                        addMarathonToChart(name);
                         clearAutocomplete();
                     };
                     autocompleteList.appendChild(item);
@@ -192,55 +227,67 @@
             autocompleteList.innerHTML = '';
         }
 
-        function addMarathonToChart(marathon) {
-            if (scatterChart.data.datasets.some(dataset => dataset.label === marathon)) {
-                alert(`${marathon} is already displayed on the chart.`);
+        async function addMarathonToChart(marathonName) {
+            if (scatterChart.data.datasets.some(dataset => dataset.label === marathonName)) {
+                alert(`${marathonName} is already displayed on the chart.`);
                 return;
             }
 
-            const color = getRandomColor(1);
+            const marathon = marathonList.find(({ name }) => name === marathonName);
 
-            scatterChart.data.datasets.push({
-                label: marathon,
-                data: marathons[marathon],
-                backgroundColor: color.replace(/1\)$/, '0.5)'),
+            if (!marathon) {
+                alert(`Marathon not found: ${marathonName}`);
+                return;
+            }
+
+            if (!loadedMarathons[marathonName]) {
+                try {
+                    const response = await fetch(`data/${marathon.code}.json`);
+                    loadedMarathons[marathonName] = await response.json();
+                } catch (error) {
+                    console.error(`Error loading data for ${marathonName}:`, error);
+                    return;
+                }
+            }
+
+            const { r, g, b } = getNextColor();
+            const color = `rgba(${r}, ${g}, ${b}, 1)`;
+
+            scatterChart.data.datasets.unshift({
+                label: marathonName,
+                data: loadedMarathons[marathonName],
+                backgroundColor: color.replace(/1\)$/, '1.0)'),
                 borderColor: color,
                 borderWidth: 2,
                 tension: 0.4,
                 pointRadius: 0,
                 fill: false
             });
+
             scatterChart.update();
 
             const selectedMarathonsDiv = document.getElementById('selectedMarathons');
             const marathonBox = document.createElement('div');
             marathonBox.className = 'marathon-box';
-            marathonBox.id = `box-${marathon.replace(/\s+/g, '-')}`;
+            marathonBox.id = `box-${marathonName.replace(/\s+/g, '-')}`;
             marathonBox.innerHTML = `
                 <div class="left-content">
                     <div class="color-square" style="background-color: ${color};"></div>
-                    <span>${marathon}</span>
+                    <span>${marathonName}</span>
                 </div>
-                <span class="trash-icon" onclick="removeMarathonFromChart('${marathon}')">&#10005;</span>
+                <span class="trash-icon" onclick="removeMarathonFromChart('${marathonName}')">&#10005;</span>
             `;
             selectedMarathonsDiv.appendChild(marathonBox);
         }
 
-        function removeMarathonFromChart(marathon) {
-            scatterChart.data.datasets = scatterChart.data.datasets.filter(dataset => dataset.label !== marathon);
+        function removeMarathonFromChart(marathonName) {
+            scatterChart.data.datasets = scatterChart.data.datasets.filter(dataset => dataset.label !== marathonName);
             scatterChart.update();
 
-            const marathonBox = document.getElementById(`box-${marathon.replace(/\s+/g, '-')}`);
+            const marathonBox = document.getElementById(`box-${marathonName.replace(/\s+/g, '-')}`);
             if (marathonBox) {
                 marathonBox.remove();
             }
-        }
-
-        function getRandomColor(opacity) {
-            const r = Math.floor(Math.random() * 255);
-            const g = Math.floor(Math.random() * 255);
-            const b = Math.floor(Math.random() * 255);
-            return `rgba(${r}, ${g}, ${b}, ${opacity})`;
         }
 
         const ctx = document.getElementById('scatterChart').getContext('2d');
@@ -249,136 +296,142 @@
             datasets: []
         };
 
-const scatterOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-        legend: {
-            display: false
-        },
-        tooltip: {
-            enabled: false,
-            external: function (context) {
-                const tooltipEl = document.getElementById('chartjs-tooltip');
-
-                if (!tooltipEl) {
-                    const newTooltipEl = document.createElement('div');
-                    newTooltipEl.id = 'chartjs-tooltip';
-                    newTooltipEl.style.position = 'absolute';
-                    newTooltipEl.style.background = 'rgba(0, 0, 0, 0.7)';
-                    newTooltipEl.style.color = 'white';
-                    newTooltipEl.style.padding = '5px 10px';
-                    newTooltipEl.style.borderRadius = '5px';
-                    newTooltipEl.style.pointerEvents = 'auto';
-                    newTooltipEl.style.fontFamily = 'Roboto Slab';
-                    newTooltipEl.style.fontSize = '12px';
-                    newTooltipEl.style.opacity = 0;
-                    newTooltipEl.addEventListener('click', () => {
-                        newTooltipEl.style.opacity = 0;
-                    });
-                    document.body.appendChild(newTooltipEl);
+        const scatterOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: true,
+                    mode: 'nearest',
+                    intersect: false,
+                    callbacks: {
+                        title: function() {
+                            return '';
+                        },
+                        label: function(context) {
+                            const xValue = context.raw?.x || context.chart.scales.x.getValueForPixel(context.tooltip.caretX);
+                            const yValue = context.raw?.y;
+                            return [
+                                `  Distance: ${xValue.toFixed(2)} km`,
+                                `  Elevation: ${yValue !== null ? yValue.toFixed(2) : 'N/A'} m`
+                            ];
+                        }
+                    },
+                    bodyFont: {
+                        family: 'Roboto Slab'
+                    },
+                    titleFont: {
+                        family: 'Roboto Slab'
+                    }
                 }
-
-                const tooltipElRef = document.getElementById('chartjs-tooltip');
-
-                if (!context.tooltip.opacity) {
-                    tooltipElRef.style.opacity = 0;
-                    return;
-                }
-
-                const tooltipModel = context.tooltip;
-                const dataPoint = tooltipModel.dataPoints[0];
-
-                const canvasPosition = context.chart.canvas.getBoundingClientRect();
-                const isRightHalf = tooltipModel.caretX > context.chart.width / 2;
-
-                tooltipElRef.style.opacity = 1;
-                tooltipElRef.style.left = isRightHalf
-                    ? `${canvasPosition.left + tooltipModel.caretX - tooltipElRef.offsetWidth - 10}px`
-                    : `${canvasPosition.left + tooltipModel.caretX + 10}px`;
-                tooltipElRef.style.top = `${canvasPosition.top + tooltipModel.caretY}px`;
-                tooltipElRef.innerHTML = `
-                    <div>
-                        <b>Distance:</b> ${dataPoint.raw.x.toFixed(2)} km<br>
-                        <b>Elevation:</b> ${dataPoint.raw.y.toFixed(2)} m
-                    </div>
-                `;
-            }
-        }
-    },
-    interaction: {
-        mode: 'index',
-        intersect: false,
-    },
-    events: ['touchstart', 'touchmove', 'touchend'],
-    onTouchStart: (e, chart) => {
-        const tooltipEl = document.getElementById('chartjs-tooltip');
-        if (tooltipEl) tooltipEl.style.opacity = 1;
-    },
-    onTouchMove: (e, chart) => {
-        const tooltipEl = document.getElementById('chartjs-tooltip');
-        if (tooltipEl) tooltipEl.style.opacity = 1;
-    },
-    onTouchEnd: (e, chart) => {
-        const tooltipEl = document.getElementById('chartjs-tooltip');
-        if (tooltipEl) tooltipEl.style.opacity = 0;
-    },
-    scales: {
-        x: {
-            type: 'linear',
-            position: 'bottom',
-            min: 0,
-            max: 43,
-            grid: {
-                drawOnChartArea: true,
-                color: 'lightgrey'
             },
-            ticks: {
-                font: {
-                    family: 'Roboto Slab'
+            scales: {
+                x: {
+                    type: 'linear',
+                    position: 'bottom',
+                    title: {
+                        display: true,
+                        text: 'Distance (km)',
+                        font: {
+                            family: 'Roboto Slab'
+                        },
+                        color: '#5e6a79',
+                    },
+                    min: 0,
+                    max: 42.2,
+                    ticks: {
+                        stepSize: 5,
+                        callback: function(value) {
+                            return value % 5 === 0 ? value : '';
+                        },
+                        font: {
+                            family: 'Roboto Slab'
+                        },
+                        color: '#5e6a79',
+                    },
+                    grid: {
+                        color: '#5e6a79',
+                        lineWidth: 0.5
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Elevation Gain/Loss (m)',
+                        font: {
+                            family: 'Roboto Slab'
+                        },
+                        color: '#5e6a79',
+                    },
+                    min: -200,
+                    max: 200,
+                    ticks: {
+                        font: {
+                            family: 'Roboto Slab'
+                        },
+                        color: '#5e6a79',
+                    },
+                    grid: {
+                        color: '#2e363f',
+                        lineWidth: 0.5
+                    }
                 }
             }
-        },
-        y: {
-            min: -200,
-            max: 200,
-            grid: {
-                drawOnChartArea: true,
-                color: 'lightgrey'
-            },
-            ticks: {
-                font: {
-                    family: 'Roboto Slab'
-                }
-            }
-        }
-    },
-    annotation: {
-        annotations: {
-            verticalLine: {
-                type: 'line',
-                mode: 'vertical',
-                scaleID: 'x',
-                value: 0,
-                borderColor: 'lightgrey',
-                borderWidth: 1,
-                label: {
-                    enabled: false
-                }
-            }
-        }
-    }
-};
-
-
-
-
+        };
 
         const scatterChart = new Chart(ctx, {
             type: 'line',
             data: scatterData,
-            options: scatterOptions
+            options: scatterOptions,
+            plugins: [{
+                id: 'blendMultiply',
+                beforeDatasetsDraw: (chart) => {
+                    const ctx = chart.ctx;
+                    ctx.save();
+                    ctx.globalCompositeOperation = 'lighter';
+                },
+                afterDatasetsDraw: (chart) => {
+                    const ctx = chart.ctx;
+                    ctx.restore();
+                }
+            }]
         });
+
+        const chartContainer = document.querySelector('#scatterChart').parentElement;
+        const verticalLine = document.getElementById('verticalLine');
+
+        chartContainer.addEventListener('mousemove', (event) => {
+            const chartRect = chartContainer.getBoundingClientRect();
+            const offsetX = event.clientX - chartRect.left;
+            verticalLine.style.left = `${offsetX}px`;
+            verticalLine.style.display = 'block';
+        });
+
+        chartContainer.addEventListener('mouseleave', () => {
+            verticalLine.style.display = 'none';
+        });
+
+        async function init() {
+            // Add temporary dataset
+            scatterChart.data.datasets.push({
+                label: 'temp',
+                data: [{ x: 0, y: 0 }],
+                borderWidth: 0,
+                fill: false
+            });
+            scatterChart.update();
+
+            // Remove it after 1 ms
+            setTimeout(() => {
+                scatterChart.data.datasets = scatterChart.data.datasets.filter(dataset => dataset.label !== 'temp');
+                scatterChart.update();
+            }, 1);
+
+            await loadMarathonList();
+        }
 
         init();
     </script>
