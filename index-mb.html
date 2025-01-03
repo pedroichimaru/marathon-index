@@ -18,26 +18,16 @@
             color: white;
         }
 
-        .controls {
-            display: flex;
-            align-items: center;
-            margin-top: 10px;
-            width: 100%;
-            justify-content: center;
-        }
-        
         .search-bar {
             position: relative;
-            margin-top: 20px;
-            margin-left: 40px;
-            margin-right: 10px;
-            margin-bottom: 10px;
-            width: 100%;
+            margin: 20px auto 10px auto;
+            width: 90%;
+            display: flex;
+            justify-content: center;
         }
 
         .search-bar input {
-            width: 90%;
-            margin-left: 10px;
+            width: 100%;
             padding: 10px;
             font-size: 16px;
             font-family: 'Roboto Slab', sans-serif;
@@ -54,8 +44,7 @@
         .autocomplete-list {
             position: absolute;
             top: 40px;
-            left: 20px;
-            width: 90%;
+            width: 100%;
             max-height: 350px; /* Approx 8 items */
             overflow-y: auto;
             background: #4e555d;
@@ -74,6 +63,22 @@
 
         .autocomplete-item:hover {
             background-color: #697178;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 90%;
+            height: 350px;
+            margin: auto;
+            position: relative;
+        }
+
+        canvas {
+            display: block;
+            width: 100% !important;
+            height: auto !important;
         }
 
         .selected-marathons {
@@ -117,18 +122,12 @@
         }
 
         h1 {
-            font-size: 8vw; /* Adjusts font size based on 5% of the viewport width */
-            text-align: center; /* Aligns the text to the center */
+            font-size: 8vw; /* Adjusts font size based on viewport width */
+            text-align: center;
             width: 90%; /* Ensures the text container takes 90% of the screen width */
             margin: 0 auto; /* Centers the element horizontally */
-            word-wrap: break-word; /* Ensures long words are wrapped */
+            word-wrap: break-word;
             box-sizing: border-box; /* Includes padding and border in width */
-        }
-
-        canvas {
-            display: block;
-            width: 100% !important;
-            height: auto !important;
         }
 
         .vertical-line {
@@ -143,11 +142,11 @@
 
         @media (max-width: 600px) {
             .search-bar {
-                width: calc(100% - 50px);
+                width: 90%;
             }
 
             .marathon-box {
-                width: calc(100% - 50px);
+                width: 90%;
             }
         }
     </style>
@@ -163,7 +162,7 @@
         <div id="autocomplete" class="autocomplete-list"></div>
     </div>
     <div class="controls">
-        <div style="position: relative; width: 90%; height:350px; margin: auto;">
+        <div style="position: relative; width: 100%; height: 100%;">
             <div class="vertical-line" id="verticalLine"></div>
             <canvas id="scatterChart"></canvas>
         </div>
@@ -171,15 +170,16 @@
     <div class="selected-marathons" id="selectedMarathons"></div>
 
     <script>
+        // JavaScript code remains unchanged to preserve functionality.
         let marathonList = [];
         let loadedMarathons = {};
         const colors = [
-{ r: 160, g: 218, b: 255 }, // Soft Blue
-{ r: 167, g: 146, b: 245 }, // Lavender Purple
-{ r: 255, g: 114, b: 189 }, // Bright Pink
-{ r: 240, g: 158, b: 166 }, // Soft Pink
-{ r: 160, g: 230, b: 192 }, // Mint Green
-{ r: 233, g: 238, b: 172 }, // Pale Yellow
+            { r: 160, g: 218, b: 255 },
+            { r: 167, g: 146, b: 245 },
+            { r: 255, g: 114, b: 189 },
+            { r: 240, g: 158, b: 166 },
+            { r: 160, g: 230, b: 192 },
+            { r: 233, g: 238, b: 172 }
         ];
 
         let availableColors = [...colors];
@@ -402,7 +402,6 @@
         });
 
         async function init() {
-            // Add temporary dataset
             scatterChart.data.datasets.push({
                 label: 'temp',
                 data: [{ x: 0, y: 0 }],
@@ -411,7 +410,6 @@
             });
             scatterChart.update();
 
-            // Remove it after 1 ms
             setTimeout(() => {
                 scatterChart.data.datasets = scatterChart.data.datasets.filter(dataset => dataset.label !== 'temp');
                 scatterChart.update();
