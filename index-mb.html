@@ -75,6 +75,18 @@
             background-color: #697178;
         }
 
+        .right-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #b0b7c1;
+        }
+
+        .right-content span {
+            font-size: 14px;
+        }
+
+        
         canvas {
             display: block;
             width: 100% !important;
@@ -283,7 +295,7 @@
             }
 
             const sampledData = uniformSampling(loadedMarathons[marathonName], 420);
-            
+
             const { r, g, b } = getNextColor();
             const color = `rgba(${r}, ${g}, ${b}, 1)`;
 
@@ -305,15 +317,23 @@
             const marathonBox = document.createElement('div');
             marathonBox.className = 'marathon-box';
             marathonBox.id = `box-${marathonName.replace(/\s+/g, '-')}`;
+
+            // Display T1-T2°C, RH%
+            const { minTemp, maxTemp, humidity } = marathon;
             marathonBox.innerHTML = `
                 <div class="left-content">
                     <div class="color-square" style="background-color: ${color};"></div>
                     <span>${marathonName}</span>
                 </div>
-                <span class="trash-icon" onclick="removeMarathonFromChart('${marathonName}')">&#10005;</span>
+                <div class="right-content">
+                    <span>${minTemp}-${maxTemp}°C, ${humidity}%</span>
+                    <span class="trash-icon" onclick="removeMarathonFromChart('${marathonName}')">&#10005;</span>
+                </div>
             `;
+
             selectedMarathonsDiv.appendChild(marathonBox);
         }
+
 
         function removeMarathonFromChart(marathonName) {
             scatterChart.data.datasets = scatterChart.data.datasets.filter(dataset => dataset.label !== marathonName);
