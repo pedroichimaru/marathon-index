@@ -1,106 +1,737 @@
 [
-    {"name": "Amsterdam Marathon, Netherlands, 2018", "code": "AMS"},
-    {"name": "Athens Marathon, Greece, 2024", "code": "ATH"},
-    {"name": "Bali Marathon, Indonesia, 2023", "code": "BAL"},
-    {"name": "Bangkok Marathon, Thailand, 2018", "code": "BAN"},
-    {"name": "Barcelona Marathon, Spain, 2021", "code": "BAR"},
-    {"name": "Beijing Marathon, China, 2024", "code": "BEI"},
-    {"name": "Belfast Marathon, Northern Ireland, 2022", "code": "BEL"},
-    {"name": "Belgrade Marathon, Serbia, 2024", "code": "BGD"},
-    {"name": "Bengaluru Marathon, India, 2014", "code": "BEN"},
-    {"name": "Beppu-Ōita Marathon, Japan, 2015", "code": "BEP"},
-    {"name": "Berlin Marathon, Germany, 2023", "code": "BER"},
-    {"name": "Big Sur International Marathon, US, 2023", "code": "BIG"},
-    {"name": "Boston Marathon, US, 2022", "code": "BOS"},
-    {"name": "Boulderthon Boulder Marathon, US, 2022", "code": "BOU"},
-    {"name": "Brasilia Monumental Marathon, Brazil, 2024", "code": "BSB"},
-    {"name": "Bucharest Marathon, Romania, 2016", "code": "BUC"},
-    {"name": "Budapest Marathon, Hungary, 2024", "code": "BUD"},
-    {"name": "Buenos Aires Marathon, Argentina, 2024", "code": "BUE"},
-    {"name": "Buriram Marathon, Thailand, 2024", "code": "BUR"},
-    {"name": "Cape Town Marathon, South Africa, 2022", "code": "CAP"},
-    {"name": "Castellón Marathon, Spain, 2020", "code": "CAS"},
-    {"name": "Chicago Marathon, US, 2022", "code": "CHI"},
-    {"name": "Copenhagen Marathon, Denmark, 2023", "code": "COP"},
-    {"name": "Curitiba Marathon, Brazil, 2022", "code": "CUR"},
-    {"name": "Dubai Marathon, UAE, 2024", "code": "DUB"},
-    {"name": "Dublin Marathon, Ireland, 2024", "code": "DBL"},
-    {"name": "Enschede Marathon, Netherlands, 2018", "code": "ENS"},
-    {"name": "Florianopolis Maraton, Brazil, 2024", "code": "FLP"},
-    {"name": "Foz do Iguaçu International Marathon, Brazil, 2022", "code": "FOZ"},
-    {"name": "Frankfurt Marathon, Germany, 2023", "code": "FKF"},
-    {"name": "Geneva Marathon, Switzerland, 2019", "code": "GEN"},
-    {"name": "Gold Coast Marathon, Australia, 2024", "code": "GOL"},
-    {"name": "Great Ocean Melbourne Marathon, Australia, 2024", "code": "GRE"},
-    {"name": "Hamburg Marathon, Germany, 2018", "code": "HAM"},
-    {"name": "Hannover Marathon, Germany, 2024", "code": "HAN"},
-    {"name": "Honolulu Marathon, US, 2023", "code": "HLU"},
-    {"name": "Houston Marathon, United States, 2024", "code": "HOU"},
-    {"name": "Hyderabad Marathon, India, 2019", "code": "HYD"},
-    {"name": "Hōfu Marathon, Japan, 2021", "code": "HOF"},
-    {"name": "Istanbul Marathon, Turkey, 2024", "code": "IST"},
-    {"name": "Jakarta Marathon, Indonesia, 2022", "code": "JAK"},
-    {"name": "Kobe Marathon, Japan, 2016", "code": "KOB"},
-    {"name": "Las Vegas Marathon, US, 2011", "code": "LAS"},
-    {"name": "Lima Marathon, Peru, 2022", "code": "LIM"},
-    {"name": "Lisbon Marathon, Portugal, 2024", "code": "LIS"},
-    {"name": "Ljubljana Marathon, Slovenia, 2021", "code": "LJU"},
-    {"name": "London Marathon, UK, 2024", "code": "LON"},
-    {"name": "Los Angeles Marathon, US, 2024", "code": "LOS"},
-    {"name": "Lucerne Marathon, Switzerland, 2015", "code": "LUC"},
-    {"name": "Madrid Marathon, Spain, 2019", "code": "MAD"},
-    {"name": "Malaga Marathon, Spain, 2015", "code": "MAL"},
-    {"name": "Manaus Marathon, Brazil, 2023", "code": "MAN"},
-    {"name": "Mauricio de Nassau Recife Marathon, Brazil, 2016", "code": "MAU"},
-    {"name": "Marburg Night Marathon, Germany, 2024", "code": "MBG"},
-    {"name": "Mendoza Marathon, Argentina, 2023", "code": "MEN"},
-    {"name": "Miami Marathon, US, 2024", "code": "MIA"},
-    {"name": "Midnight Sun Tromso Marathon, Norway, 2023", "code": "MID"},
-    {"name": "Milan Marathon, Italy, 2024", "code": "MIL"},
-    {"name": "Mumbai Marathon, India, 2018", "code": "MUM"},
-    {"name": "Nagoya Marathon, Japan, 2024", "code": "NAG"},
-    {"name": "Nairobi Marathon, Kenya, 2023", "code": "NAI"},
-    {"name": "New Taipei City Wan Jin Shi Marathon, Taiwan, 2024", "code": "NEW"},
-    {"name": "New York City Marathon, US, 2023", "code": "NYC"},
-    {"name": "Osaka Marathon, Japan, 2018", "code": "OSA"},
-    {"name": "Oslo Marathon, Norway, 2014", "code": "OSL"},
-    {"name": "Ottawa Marathon, Canada, 2019", "code": "OTT"},
-    {"name": "Paris Marathon, France, 2021", "code": "PAR"},
-    {"name": "Pattaya Marathon, Thailand, 2015", "code": "PAT"},
-    {"name": "Philadelphia Marathon, US, 2018", "code": "PHI"},
-    {"name": "Porto Alegre Marathon, Brazil, 2017", "code": "POA"},
-    {"name": "Porto Marathon, Portugal, 2016", "code": "POR"},
-    {"name": "Riga Marathon, Latvia, 2017", "code": "RIG"},
-    {"name": "Rio de Janeiro Marathon, Brazil, 2024", "code": "RIO"},
-    {"name": "Riyadh Marathon, Saudi Arabia, 2022", "code": "RIY"},
-    {"name": "Rome Marathon, Italy, 2022", "code": "ROM"},
-    {"name": "Rotterdam Marathon, Netherlands, 2024", "code": "ROT"},
-    {"name": "SP City Sao Paulo Marathon, Brazil, 2024", "code": "SPY"},
-    {"name": "Salvador Marathon, Brazil, 2024", "code": "SAL"},
-    {"name": "San Francisco Marathon, US, 2019", "code": "SAN"},
-    {"name": "Santiago Marathon, Chile, 2017", "code": "STG"},
-    {"name": "Sao Paulo International Marathon, Brazil, 2024", "code": "SPI"},
-    {"name": "Seoul International Marathon, South Korea, 2023", "code": "SEO"},
-    {"name": "Sevilla Marathon, Spain, 2024", "code": "SEV"},
-    {"name": "Shanghai Marathon, China, 2022", "code": "SHA"},
-    {"name": "Singapore Marathon, Singapore, 2012", "code": "SIN"},
-    {"name": "Sofia Marathon, Bulgaria, 2023", "code": "SOF"},
-    {"name": "Sorocaba Marathon, Brazil, 2024", "code": "SOR"},
-    {"name": "Stockholm Marathon, Sweden, 2024", "code": "STO"},
-    {"name": "Sunshine Coast Marathon, Australia, 2019", "code": "SUN"},
-    {"name": "Sydney Marathon, Australia, 2024", "code": "SYD"},
-    {"name": "Taipei Marathon, Taiwan, 2024", "code": "TAI"},
-    {"name": "Tallinn Marathon, Estonia, 2024", "code": "TAL"},
-    {"name": "The Great Wall Marathon, China, 2024", "code": "THE"},
-    {"name": "Tokyo Marathon, Japan, 2024", "code": "TOK"},
-    {"name": "Toronto Waterfront Marathon, Canada, 2014", "code": "TOR"},
-    {"name": "Turin Marathon, Italy, 2015", "code": "TUR"},
-    {"name": "Valencia Marathon, Spain, 2024", "code": "VAL"},
-    {"name": "Venicemarathon Venice Marathon, Italy, 2014", "code": "VEN"},
-    {"name": "Vienna Marathon, Austria, 2015", "code": "VIE"},
-    {"name": "Walt Disney World Marathon, US, 2022", "code": "WAL"},
-    {"name": "Warsaw Marathon, Poland, 2018", "code": "WAR"},
-    {"name": "Xiamen Marathon, China, 2024", "code": "XIA"},
-    {"name": "Zagreb Marathon, Croatia, 2022", "code": "ZAG"},
-    {"name": "Zurich Marathon, Switzerland, 2024", "code": "ZUR"}
+    {
+        "name": "Amsterdam Marathon, Netherlands, October, 2018",
+        "code": "AMS",
+        "minTemp": 8,
+        "maxTemp": 14,
+        "humidity": 85
+    },
+    {
+        "name": "Berlin Marathon, Germany, September, 2023",
+        "code": "BER",
+        "minTemp": 11,
+        "maxTemp": 19,
+        "humidity": 77
+    },
+    {
+        "name": "Boston Marathon, US, April, 2022",
+        "code": "BOS",
+        "minTemp": 4,
+        "maxTemp": 15,
+        "humidity": 63
+    },
+    {
+        "name": "Brasilia Monumental Marathon, Brazil, October, 2024",
+        "code": "BSB",
+        "minTemp": 18,
+        "maxTemp": 29,
+        "humidity": 64
+    },
+    {
+        "name": "Buenos Aires Marathon, Argentina, October, 2024",
+        "code": "BUE",
+        "minTemp": 14,
+        "maxTemp": 22,
+        "humidity": 70
+    },
+    {
+        "name": "Chicago Marathon, US, October, 2022",
+        "code": "CHI",
+        "minTemp": 8,
+        "maxTemp": 18,
+        "humidity": 68
+    },
+    {
+        "name": "Florianopolis Maraton, Brazil, July, 2024",
+        "code": "FLP",
+        "minTemp": 13,
+        "maxTemp": 21,
+        "humidity": 80
+    },
+    {
+        "name": "Frankfurt Marathon, Germany, October, 2023",
+        "code": "FKF",
+        "minTemp": 7,
+        "maxTemp": 15,
+        "humidity": 82
+    },
+    {
+        "name": "Lisbon Marathon, Portugal, October, 2024",
+        "code": "LIS",
+        "minTemp": 15,
+        "maxTemp": 23,
+        "humidity": 80
+    },
+    {
+        "name": "London Marathon, UK, April, 2024",
+        "code": "LON",
+        "minTemp": 5,
+        "maxTemp": 15,
+        "humidity": 72
+    },
+    {
+        "name": "Mendoza Marathon, Argentina, May, 2023",
+        "code": "MEN",
+        "minTemp": 5,
+        "maxTemp": 18,
+        "humidity": 75
+    },
+    {
+        "name": "Milan Marathon, Italy, April, 2024",
+        "code": "MIL",
+        "minTemp": 7,
+        "maxTemp": 17,
+        "humidity": 70
+    },
+    {
+        "name": "New York City Marathon, US, November, 2023",
+        "code": "NYC",
+        "minTemp": 5,
+        "maxTemp": 12,
+        "humidity": 65
+    },
+    {
+        "name": "Paris Marathon, France, April, 2021",
+        "code": "PAR",
+        "minTemp": 6,
+        "maxTemp": 16,
+        "humidity": 73
+    },
+    {
+        "name": "Porto Alegre Marathon, Brazil, June, 2017",
+        "code": "POA",
+        "minTemp": 11,
+        "maxTemp": 20,
+        "humidity": 82
+    },
+    {
+        "name": "Rio de Janeiro Marathon, Brazil, June, 2024",
+        "code": "RIO",
+        "minTemp": 18,
+        "maxTemp": 26,
+        "humidity": 80
+    },
+    {
+        "name": "Rotterdam Marathon, Netherlands, April, 2024",
+        "code": "ROT",
+        "minTemp": 4,
+        "maxTemp": 13,
+        "humidity": 75
+    },
+    {
+        "name": "Sao Paulo International Marathon, Brazil, April, 2024",
+        "code": "SPI",
+        "minTemp": 17,
+        "maxTemp": 25,
+        "humidity": 78
+    },
+    {
+        "name": "Sevilla Marathon, Spain, February, 2024",
+        "code": "SEV",
+        "minTemp": 6,
+        "maxTemp": 16,
+        "humidity": 70
+    },
+    {
+        "name": "Sorocaba Marathon, Brazil, November, 2024",
+        "code": "SOR",
+        "minTemp": 18,
+        "maxTemp": 28,
+        "humidity": 75
+    },
+    {
+        "name": "SP City Sao Paulo Marathon, Brazil, July, 2024",
+        "code": "SPY",
+        "minTemp": 12,
+        "maxTemp": 23,
+        "humidity": 80
+    },
+    {
+        "name": "Sydney Marathon, Australia, September, 2024",
+        "code": "SYD",
+        "minTemp": 11,
+        "maxTemp": 20,
+        "humidity": 65
+    },
+    {
+        "name": "Tokyo Marathon, Japan, March, 2024",
+        "code": "TOK",
+        "minTemp": 5,
+        "maxTemp": 13,
+        "humidity": 60
+    },
+    {
+        "name": "Valencia Marathon, Spain, December, 2024",
+        "code": "VAL",
+        "minTemp": 6,
+        "maxTemp": 17,
+        "humidity": 70
+    },
+    {
+        "name": "Athens Marathon, Greece, November, 2024",
+        "code": "ATH",
+        "minTemp": 12,
+        "maxTemp": 19,
+        "humidity": 68
+    },
+    {
+        "name": "Bali Marathon, Indonesia, September, 2023",
+        "code": "BAL",
+        "minTemp": 23,
+        "maxTemp": 31,
+        "humidity": 85
+    },
+    {
+        "name": "Bangkok Marathon, Thailand, November, 2018",
+        "code": "BAN",
+        "minTemp": 24,
+        "maxTemp": 32,
+        "humidity": 73
+    },
+    {
+        "name": "Barcelona Marathon, Spain, March, 2021",
+        "code": "BAR",
+        "minTemp": 7,
+        "maxTemp": 16,
+        "humidity": 72
+    },
+    {
+        "name": "Beijing Marathon, China, October, 2024",
+        "code": "BEI",
+        "minTemp": 8,
+        "maxTemp": 19,
+        "humidity": 57
+    },
+    {
+        "name": "Belfast Marathon, Northern Ireland, May, 2022",
+        "code": "BEL",
+        "minTemp": 7,
+        "maxTemp": 15,
+        "humidity": 75
+    },
+    {
+        "name": "Belgrade Marathon, Serbia, April, 2024",
+        "code": "BGD",
+        "minTemp": 7,
+        "maxTemp": 17,
+        "humidity": 68
+    },
+    {
+        "name": "Bengaluru Marathon, India, October, 2014",
+        "code": "BEN",
+        "minTemp": 19,
+        "maxTemp": 28,
+        "humidity": 79
+    },
+    {
+        "name": "Beppu-\u014cita Marathon, Japan, February, 2015",
+        "code": "BEP",
+        "minTemp": 2,
+        "maxTemp": 11,
+        "humidity": 65
+    },
+    {
+        "name": "Big Sur International Marathon, US, April, 2023",
+        "code": "BIG",
+        "minTemp": 8,
+        "maxTemp": 18,
+        "humidity": 75
+    },
+    {
+        "name": "Boulderthon Boulder Marathon, US, October, 2022",
+        "code": "BOU",
+        "minTemp": 3,
+        "maxTemp": 18,
+        "humidity": 50
+    },
+    {
+        "name": "Bucharest Marathon, Romania, October, 2016",
+        "code": "BUC",
+        "minTemp": 6,
+        "maxTemp": 17,
+        "humidity": 78
+    },
+    {
+        "name": "Budapest Marathon, Hungary, October, 2024",
+        "code": "BUD",
+        "minTemp": 7,
+        "maxTemp": 16,
+        "humidity": 75
+    },
+    {
+        "name": "Buriram Marathon, Thailand, January, 2024",
+        "code": "BUR",
+        "minTemp": 19,
+        "maxTemp": 31,
+        "humidity": 70
+    },
+    {
+        "name": "Cape Town Marathon, South Africa, September, 2022",
+        "code": "CAP",
+        "minTemp": 11,
+        "maxTemp": 19,
+        "humidity": 77
+    },
+    {
+        "name": "Castell\u00f3n Marathon, Spain, February, 2020",
+        "code": "CAS",
+        "minTemp": 5,
+        "maxTemp": 16,
+        "humidity": 68
+    },
+    {
+        "name": "Copenhagen Marathon, Denmark, May, 2023",
+        "code": "COP",
+        "minTemp": 7,
+        "maxTemp": 16,
+        "humidity": 70
+    },
+    {
+        "name": "Curitiba Marathon, Brazil, October, 2022",
+        "code": "CUR",
+        "minTemp": 14,
+        "maxTemp": 24,
+        "humidity": 80
+    },
+    {
+        "name": "Dubai Marathon, UAE, January, 2024",
+        "code": "DUB",
+        "minTemp": 14,
+        "maxTemp": 24,
+        "humidity": 65
+    },
+    {
+        "name": "Dublin Marathon, Ireland, October, 2024",
+        "code": "DBL",
+        "minTemp": 8,
+        "maxTemp": 14,
+        "humidity": 82
+    },
+    {
+        "name": "Enschede Marathon, Netherlands, April, 2018",
+        "code": "ENS",
+        "minTemp": 4,
+        "maxTemp": 13,
+        "humidity": 75
+    },
+    {
+        "name": "Foz do Igua\u00e7u International Marathon, Brazil, September, 2022",
+        "code": "FOZ",
+        "minTemp": 16,
+        "maxTemp": 28,
+        "humidity": 80
+    },
+    {
+        "name": "Geneva Marathon, Switzerland, May, 2019",
+        "code": "GEN",
+        "minTemp": 9,
+        "maxTemp": 19,
+        "humidity": 75
+    },
+    {
+        "name": "Gold Coast Marathon, Australia, July, 2024",
+        "code": "GOL",
+        "minTemp": 9,
+        "maxTemp": 21,
+        "humidity": 65
+    },
+    {
+        "name": "Great Ocean Melbourne Marathon, Australia, May, 2024",
+        "code": "GRE",
+        "minTemp": 8,
+        "maxTemp": 16,
+        "humidity": 70
+    },
+    {
+        "name": "Hamburg Marathon, Germany, April, 2018",
+        "code": "HAM",
+        "minTemp": 3,
+        "maxTemp": 13,
+        "humidity": 70
+    },
+    {
+        "name": "Hannover Marathon, Germany, April, 2024",
+        "code": "HAN",
+        "minTemp": 3,
+        "maxTemp": 13,
+        "humidity": 70
+    },
+    {
+        "name": "H\u014dfu Marathon, Japan, December, 2021",
+        "code": "HOF",
+        "minTemp": 3,
+        "maxTemp": 13,
+        "humidity": 70
+    },
+    {
+        "name": "Honolulu Marathon, US, December, 2023",
+        "code": "HLU",
+        "minTemp": 19,
+        "maxTemp": 27,
+        "humidity": 75
+    },
+    {
+        "name": "Houston Marathon, United States, January, 2024",
+        "code": "HOU",
+        "minTemp": 7,
+        "maxTemp": 17,
+        "humidity": 80
+    },
+    {
+        "name": "Hyderabad Marathon, India, August, 2019",
+        "code": "HYD",
+        "minTemp": 22,
+        "maxTemp": 30,
+        "humidity": 75
+    },
+    {
+        "name": "Istanbul Marathon, Turkey, November, 2024",
+        "code": "IST",
+        "minTemp": 8,
+        "maxTemp": 15,
+        "humidity": 75
+    },
+    {
+        "name": "Jakarta Marathon, Indonesia, October, 2022",
+        "code": "JAK",
+        "minTemp": 25,
+        "maxTemp": 32,
+        "humidity": 80
+    },
+    {
+        "name": "Kobe Marathon, Japan, November, 2016",
+        "code": "KOB",
+        "minTemp": 9,
+        "maxTemp": 17,
+        "humidity": 70
+    },
+    {
+        "name": "Las Vegas Marathon, US, February, 2011",
+        "code": "LAS",
+        "minTemp": 7,
+        "maxTemp": 19,
+        "humidity": 39
+    },
+    {
+        "name": "Lima Marathon, Peru, May, 2022",
+        "code": "LIM",
+        "minTemp": 17,
+        "maxTemp": 22,
+        "humidity": 83
+    },
+    {
+        "name": "Ljubljana Marathon, Slovenia, October, 2021",
+        "code": "LJU",
+        "minTemp": 7,
+        "maxTemp": 16,
+        "humidity": 82
+    },
+    {
+        "name": "Los Angeles Marathon, US, March, 2024",
+        "code": "LOS",
+        "minTemp": 11,
+        "maxTemp": 21,
+        "humidity": 71
+    },
+    {
+        "name": "Lucerne Marathon, Switzerland, October, 2015",
+        "code": "LUC",
+        "minTemp": 6,
+        "maxTemp": 15,
+        "humidity": 85
+    },
+    {
+        "name": "Madrid Marathon, Spain, April, 2019",
+        "code": "MAD",
+        "minTemp": 7,
+        "maxTemp": 18,
+        "humidity": 60
+    },
+    {
+        "name": "Malaga Marathon, Spain, December, 2015",
+        "code": "MAL",
+        "minTemp": 9,
+        "maxTemp": 17,
+        "humidity": 75
+    },
+    {
+        "name": "Manaus Marathon, Brazil, April, 2023",
+        "code": "MAN",
+        "minTemp": 24,
+        "maxTemp": 31,
+        "humidity": 88
+    },
+    {
+        "name": "Marburg Night Marathon, Germany, July, 2024",
+        "code": "MBG",
+        "minTemp": 13,
+        "maxTemp": 24,
+        "humidity": 69
+    },
+    {
+        "name": "Mauricio de Nassau Recife Marathon, Brazil, September, 2016",
+        "code": "MAU",
+        "minTemp": 22,
+        "maxTemp": 28,
+        "humidity": 79
+    },
+    {
+        "name": "Miami Marathon, US, January, 2024",
+        "code": "MIA",
+        "minTemp": 16,
+        "maxTemp": 24,
+        "humidity": 83
+    },
+    {
+        "name": "Midnight Sun Tromso Marathon, Norway, June, 2023",
+        "code": "MID",
+        "minTemp": 7,
+        "maxTemp": 13,
+        "humidity": 76
+    },
+    {
+        "name": "Mumbai Marathon, India, January, 2018",
+        "code": "MUM",
+        "minTemp": 19,
+        "maxTemp": 30,
+        "humidity": 57
+    },
+    {
+        "name": "Nagoya Marathon, Japan, March, 2024",
+        "code": "NAG",
+        "minTemp": 4,
+        "maxTemp": 14,
+        "humidity": 60
+    },
+    {
+        "name": "Nairobi Marathon, Kenya, October, 2023",
+        "code": "NAI",
+        "minTemp": 13,
+        "maxTemp": 26,
+        "humidity": 77
+    },
+    {
+        "name": "New Taipei City Wan Jin Shi Marathon, Taiwan, March, 2024",
+        "code": "NEW",
+        "minTemp": 14,
+        "maxTemp": 22,
+        "humidity": 78
+    },
+    {
+        "name": "Osaka Marathon, Japan, February, 2018",
+        "code": "OSA",
+        "minTemp": 2,
+        "maxTemp": 10,
+        "humidity": 65
+    },
+    {
+        "name": "Oslo Marathon, Norway, September, 2014",
+        "code": "OSL",
+        "minTemp": 9,
+        "maxTemp": 15,
+        "humidity": 80
+    },
+    {
+        "name": "Ottawa Marathon, Canada, May, 2019",
+        "code": "OTT",
+        "minTemp": 8,
+        "maxTemp": 19,
+        "humidity": 70
+    },
+    {
+        "name": "Pattaya Marathon, Thailand, July, 2015",
+        "code": "PAT",
+        "minTemp": 25,
+        "maxTemp": 31,
+        "humidity": 82
+    },
+    {
+        "name": "Philadelphia Marathon, US, November, 2018",
+        "code": "PHI",
+        "minTemp": 4,
+        "maxTemp": 13,
+        "humidity": 76
+    },
+    {
+        "name": "Porto Marathon, Portugal, November, 2016",
+        "code": "POR",
+        "minTemp": 9,
+        "maxTemp": 17,
+        "humidity": 83
+    },
+    {
+        "name": "Riga Marathon, Latvia, May, 2017",
+        "code": "RIG",
+        "minTemp": 7,
+        "maxTemp": 17,
+        "humidity": 75
+    },
+    {
+        "name": "Riyadh Marathon, Saudi Arabia, February, 2022",
+        "code": "RIY",
+        "minTemp": 10,
+        "maxTemp": 24,
+        "humidity": 35
+    },
+    {
+        "name": "Rome Marathon, Italy, April, 2022",
+        "code": "ROM",
+        "minTemp": 8,
+        "maxTemp": 18,
+        "humidity": 68
+    },
+    {
+        "name": "Salvador Marathon, Brazil, September, 2024",
+        "code": "SAL",
+        "minTemp": 22,
+        "maxTemp": 27,
+        "humidity": 81
+    },
+    {
+        "name": "San Francisco Marathon, US, July, 2019",
+        "code": "SAN",
+        "minTemp": 13,
+        "maxTemp": 22,
+        "humidity": 87
+    },
+    {
+        "name": "Santiago Marathon, Chile, May, 2017",
+        "code": "STG",
+        "minTemp": 5,
+        "maxTemp": 16,
+        "humidity": 80
+    },
+    {
+        "name": "Seoul International Marathon, South Korea, March, 2023",
+        "code": "SEO",
+        "minTemp": 1,
+        "maxTemp": 10,
+        "humidity": 60
+    },
+    {
+        "name": "Seville Marathon, Spain, February, 2024",
+        "code": "SEV",
+        "minTemp": 6,
+        "maxTemp": 16,
+        "humidity": 70
+    },
+    {
+        "name": "Shanghai Marathon, China, December, 2022",
+        "code": "SHA",
+        "minTemp": 4,
+        "maxTemp": 12,
+        "humidity": 77
+    },
+    {
+        "name": "Singapore Marathon, Singapore, December, 2012",
+        "code": "SIN",
+        "minTemp": 24,
+        "maxTemp": 30,
+        "humidity": 84
+    },
+    {
+        "name": "Sofia Marathon, Bulgaria, October, 2023",
+        "code": "SOF",
+        "minTemp": 6,
+        "maxTemp": 17,
+        "humidity": 75
+    },
+    {
+        "name": "Stockholm Marathon, Sweden, June, 2024",
+        "code": "STO",
+        "minTemp": 11,
+        "maxTemp": 20,
+        "humidity": 68
+    },
+    {
+        "name": "Sunshine Coast Marathon, Australia, August, 2019",
+        "code": "SUN",
+        "minTemp": 10,
+        "maxTemp": 22,
+        "humidity": 65
+    },
+    {
+        "name": "Taipei Marathon, Taiwan, December, 2024",
+        "code": "TAI",
+        "minTemp": 15,
+        "maxTemp": 20,
+        "humidity": 78
+    },
+    {
+        "name": "Tallinn Marathon, Estonia, September, 2024",
+        "code": "TAL",
+        "minTemp": 8,
+        "maxTemp": 14,
+        "humidity": 80
+    },
+    {
+        "name": "The Great Wall Marathon, China, May, 2024",
+        "code": "THE",
+        "minTemp": 14,
+        "maxTemp": 26,
+        "humidity": 60
+    },
+    {
+        "name": "Toronto Waterfront Marathon, Canada, October, 2014",
+        "code": "TOR",
+        "minTemp": 6,
+        "maxTemp": 14,
+        "humidity": 75
+    },
+    {
+        "name": "Turin Marathon, Italy, November, 2015",
+        "code": "TUR",
+        "minTemp": 3,
+        "maxTemp": 11,
+        "humidity": 80
+    },
+    {
+        "name": "Venicemarathon Venice Marathon, Italy, October, 2014",
+        "code": "VEN",
+        "minTemp": 9,
+        "maxTemp": 17,
+        "humidity": 75
+    },
+    {
+        "name": "Vienna Marathon, Austria, April, 2015",
+        "code": "VIE",
+        "minTemp": 6,
+        "maxTemp": 15,
+        "humidity": 65
+    },
+    {
+        "name": "Walt Disney World Marathon, US, January, 2022",
+        "code": "WAL",
+        "minTemp": 9,
+        "maxTemp": 21,
+        "humidity": 90
+    },
+    {
+        "name": "Warsaw Marathon, Poland, September, 2018",
+        "code": "WAR",
+        "minTemp": 9,
+        "maxTemp": 19,
+        "humidity": 80
+    },
+    {
+        "name": "Xiamen Marathon, China, January, 2024",
+        "code": "XIA",
+        "minTemp": 10,
+        "maxTemp": 17,
+        "humidity": 75
+    },
+    {
+        "name": "Zagreb Marathon, Croatia, October, 2022",
+        "code": "ZAG",
+        "minTemp": 7,
+        "maxTemp": 16,
+        "humidity": 80
+    },
+    {
+        "name": "Zurich Marathon, Switzerland, April, 2024",
+        "code": "ZUR",
+        "minTemp": 4,
+        "maxTemp": 14,
+        "humidity": 70
+    }
 ]
