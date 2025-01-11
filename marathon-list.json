@@ -602,6 +602,13 @@
         "humidity": 80
     },
     {
+        "name": "São Silvestre Sao Paulo 'Marathon', Brazil, December, 2024",
+        "code": "SSV",
+        "minTemp": 17,
+        "maxTemp": 26,
+        "humidity": 83
+    },
+    {
         "name": "Seoul International Marathon, South Korea, March, 2023",
         "code": "SEO",
         "minTemp": 1,
