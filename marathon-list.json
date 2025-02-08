@@ -35,6 +35,13 @@
         "humidity": 70
     },
     {
+        "name": "Charleston Marathon, US, April, 2024",
+        "code": "CHA",
+        "minTemp": 8,
+        "maxTemp": 19,
+        "humidity": 23
+    },
+    {
         "name": "Chicago Marathon, US, October, 2022",
         "code": "CHI",
         "minTemp": 8,
