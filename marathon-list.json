@@ -560,7 +560,7 @@
         "humidity": 76
     },
     {
-        "name": "Pico do Jaraguá 'Marathon', Brazil, February, 2024",
+        "name": "Pico do Jaraguá Marathon, Brazil, February, 2024",
         "code": "PIC",
         "minTemp": 20,
         "maxTemp": 29,
@@ -616,7 +616,7 @@
         "humidity": 80
     },
     {
-        "name": "Sao Silvestre Sao Paulo 'Marathon', Brazil, December, 2024",
+        "name": "Sao Silvestre Sao Paulo Marathon, Brazil, December, 2024",
         "code": "SSV",
         "minTemp": 17,
         "maxTemp": 26,
