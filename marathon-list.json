@@ -553,6 +553,13 @@
         "humidity": 76
     },
     {
+        "name": "Pico do Jaraguá 'Marathon', Brazil, February, 2024",
+        "code": "PIC",
+        "minTemp": 20,
+        "maxTemp": 29,
+        "humidity": 74
+    },
+    {
         "name": "Porto Marathon, Portugal, November, 2016",
         "code": "POR",
         "minTemp": 9,
