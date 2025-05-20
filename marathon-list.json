@@ -322,6 +322,13 @@
         "humidity": 75
     },
     {
+        "name": "Fernando de Noronha Half Marathon, Brazil, December, 2024",
+        "code": "FNO",
+        "minTemp": 24,
+        "maxTemp": 30,
+        "humidity": 80
+    },
+    {
         "name": "Foz do Igua\u00e7u International Marathon, Brazil, September, 2022",
         "code": "FOZ",
         "minTemp": 16,
